@@ -1,5 +1,7 @@
 import pytest
+
 from redpitayafpga_mcp.fpga_profile import ila_plan
+
 
 def test_ila_plan_has_bounded_exact_nets_and_never_programs_hardware():
     planned = ila_plan("clk", [["counter[0]", "counter[1]"], ["valid"]], 1024)

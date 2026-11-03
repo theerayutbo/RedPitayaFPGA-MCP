@@ -1,16 +1,20 @@
 """Operator-selected local FPGA workspace/build settings. No hardware transport."""
+
 from __future__ import annotations
+
 import math
 import os
 from collections.abc import Mapping
 from dataclasses import dataclass
 from pathlib import Path
 
+
 def _flag(env: Mapping[str, str], key: str) -> bool:
     value = env.get(key, "false").lower()
     if value not in {"true", "false", "1", "0"}:
         raise ValueError(f"{key} must be true/false or 1/0")
     return value in {"true", "1"}
+
 
 @dataclass(frozen=True)
 class Settings:
@@ -36,6 +40,7 @@ class Settings:
             allow_project_write=_flag(env, "RP_ALLOW_PROJECT_WRITE"),
             allow_local_build=_flag(env, "RP_ALLOW_LOCAL_BUILD"),
             vivado_executable=Path(env["RP_VIVADO_EXECUTABLE"])
-            if env.get("RP_VIVADO_EXECUTABLE") else None,
+            if env.get("RP_VIVADO_EXECUTABLE")
+            else None,
             build_timeout=float(env.get("RP_BUILD_TIMEOUT", "300")),
         )
